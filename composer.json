@@ -2,7 +2,7 @@
     "name": "lukaszoramus/zonda-php-api",
     "type": "library",
     "license": "MIT",
-    "version": "0.1",
+    "description": "Zonda PHP Api Client",
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
