@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ZondaPhpApi\Tests\HttpClient\Util;
 
-
 use PHPUnit\Framework\TestCase;
 use ZondaPhpApi\HttpClient\Util\JsonArray;
 
