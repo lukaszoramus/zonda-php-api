@@ -27,4 +27,9 @@ class Trading extends AbstractApi
     {
         return $this->get(self::URI_PREFIX . 'orderbook-limited/', [$tradingPair, $limit]);
     }
+
+    public function lastTransactions(string $tradingPair, array $query = [])
+    {
+        return $this->get(self::URI_PREFIX . 'transactions/', [$tradingPair], $query);
+    }
 }

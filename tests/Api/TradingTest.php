@@ -144,6 +144,45 @@ class TradingTest extends ApiTestCase
         $this->assertEquals($expected, $trading->orderBookLimited(self::TRADING_PAIR, $limit));
     }
 
+    /**
+     * @test
+     */
+    public function shouldShowLastTransactions()
+    {
+        $query = [
+            'limit' => 2,
+            'sort' => 'desc'
+        ];
+
+        $expected = [
+            'status' => 'Ok',
+            'items' => [
+                [
+                    'id' => '7addbf72-a266-11ed-9bda-0242ac110005',
+                    't' => '1675279655007',
+                    'a' => '0.06752256',
+                    'r' => '99985.1',
+                    'ty' => 'Buy'
+                ],
+                [
+                    'id' => '7addbf71-a266-11ed-9bda-0242ac110005',
+                    't' => '1675279655007',
+                    'a' => '0.0825',
+                    'r' => '99985.09',
+                    'ty' => 'Buy'
+                ]
+            ]
+        ];
+
+        $trading = $this->getApiMock();
+        $trading->expects($this->once())
+            ->method('get')
+            ->with('trading/transactions/', [self::TRADING_PAIR], $query)
+            ->will($this->returnValue($expected));
+
+        $this->assertEquals($expected, $trading->lastTransactions(self::TRADING_PAIR, $query));
+    }
+
     protected function getApiClass(): string
     {
         return Trading::class;
