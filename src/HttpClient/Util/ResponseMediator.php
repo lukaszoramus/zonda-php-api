@@ -19,7 +19,7 @@ final class ResponseMediator
         }
 
         if (str_contains($response->getHeaderLine(Header::CONTENT_TYPE->value), ContentType::JSON->value)) {
-            return json_decode($content, true);
+            return JsonArray::decode($content);
         }
 
         return $content;

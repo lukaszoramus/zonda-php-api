@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ZondaPhpApi\Tests\Api;
 
 use ZondaPhpApi\Api\Trading;

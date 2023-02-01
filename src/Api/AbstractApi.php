@@ -36,9 +36,8 @@ abstract class AbstractApi
 
     protected static function prepareUri(string $uri, array $params = [], array $query = []): string
     {
-        return rtrim(
-            sprintf('%s%s', self::URI_PREFIX, $uri) . implode('/', $params) . HttpQueryBuilder::build($query),
-            '/'
-        );
+        $concatUri = sprintf('%s%s', self::URI_PREFIX, $uri) . implode('/', $params);
+        $trimmed = rtrim($concatUri, '/');
+        return $trimmed . HttpQueryBuilder::build($query);
     }
 }
