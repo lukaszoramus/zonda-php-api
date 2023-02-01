@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace ZondaPhpApi\Tests;
+
 use Http\Client\Common\HttpMethodsClient;
 use PHPUnit\Framework\TestCase;
 use ZondaPhpApi\Client;
