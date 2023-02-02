@@ -183,6 +183,44 @@ class TradingTest extends ApiTestCase
         $this->assertEquals($expected, $trading->lastTransactions(self::TRADING_PAIR, $query));
     }
 
+    /**
+     * @test
+     */
+    public function shouldShowCandlestickChart()
+    {
+        $threeMinutes = 3 * 60;
+
+        $query = [
+            'from' => (new \DateTime('01.02.2023'))->format('Uu'),
+            'to' => (new \DateTime('02.02.2023'))->format('Uu'),
+        ];
+
+        $expected = [
+            'status' => 'Ok',
+            'items' => [
+                [
+                    '1675365660000',
+                    [
+                        'o' => '102213.09',
+                        'c' => '102213.09',
+                        'h' => '102213.09',
+                        'l' => '102213.09',
+                        'v' => '0',
+                        'co' => '0'
+                    ]
+                ]
+            ]
+        ];
+
+        $trading = $this->getApiMock();
+        $trading->expects($this->once())
+            ->method('get')
+            ->with('trading/candle/history/', [self::TRADING_PAIR, $threeMinutes], $query)
+            ->will($this->returnValue($expected));
+
+        $this->assertEquals($expected, $trading->candlestickChart(self::TRADING_PAIR, $threeMinutes, $query));
+    }
+
     protected function getApiClass(): string
     {
         return Trading::class;
