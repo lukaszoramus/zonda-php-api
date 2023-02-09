@@ -6,11 +6,13 @@ namespace ZondaPhpApi;
 
 use Http\Client\Common\HttpMethodsClientInterface;
 use Http\Client\Common\Plugin\AddHostPlugin;
+use Http\Client\Common\Plugin\AuthenticationPlugin;
+use Http\Client\Common\Plugin\ContentTypePlugin;
 use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
-use Http\Client\Common\Plugin\RedirectPlugin;
 use Psr\Http\Client\ClientInterface;
 use ZondaPhpApi\Api\Trading;
 use ZondaPhpApi\HttpClient\Builder;
+use ZondaPhpApi\HttpClient\Plugin\Authentication;
 
 class Client
 {
@@ -19,30 +21,33 @@ class Client
 
     private Builder $httpClientBuilder;
 
-    public function __construct(Builder $httpClientBuilder = null)
+    public function __construct(Builder $httpClientBuilder = new Builder())
     {
-        $this->httpClientBuilder = $builder = $httpClientBuilder ?? new Builder();
+        $this->httpClientBuilder = $httpClientBuilder;
 
-        $builder->addPlugin(new HeaderDefaultsPlugin([
-            'User-Agent' => self::USER_AGENT,
-        ]));
-
-        $builder->addPlugin(new RedirectPlugin());
+        $this->httpClientBuilder
+            ->addPlugin(new HeaderDefaultsPlugin([
+                'User-Agent' => self::USER_AGENT,
+            ]))
+            ->addPlugin(new ContentTypePlugin())
+        ;
 
         $this->setUrl(self::BASE_URL);
+    }
+
+    public static function create(Builder $httpClientBuilder = null): self
+    {
+        return new self($httpClientBuilder);
     }
 
     public function setUrl(string $url): void
     {
         $uri = $this->getHttpClientBuilder()->getUriFactory()->createUri($url);
 
-        $this->getHttpClientBuilder()->removePlugin(AddHostPlugin::class);
-        $this->getHttpClientBuilder()->addPlugin(new AddHostPlugin($uri));
-    }
-
-    protected function getHttpClientBuilder(): Builder
-    {
-        return $this->httpClientBuilder;
+        $this->getHttpClientBuilder()
+            ->removePlugin(AddHostPlugin::class)
+            ->addPlugin(new AddHostPlugin($uri))
+        ;
     }
 
     public static function createWithHttpClient(ClientInterface $httpClient): self
@@ -50,6 +55,18 @@ class Client
         $builder = new Builder($httpClient);
 
         return new self($builder);
+    }
+
+    public function authenticate(string $publicApiKey, string $privateApiKey): self
+    {
+        $authentication = new Authentication($publicApiKey, $privateApiKey);
+
+        $this->getHttpClientBuilder()
+            ->removePlugin(AuthenticationPlugin::class)
+            ->addPlugin(new AuthenticationPlugin($authentication))
+        ;
+
+        return $this;
     }
 
     public function trading(): Trading
@@ -60,5 +77,10 @@ class Client
     public function getHttpClient(): HttpMethodsClientInterface
     {
         return $this->getHttpClientBuilder()->getHttpClient();
+    }
+
+    protected function getHttpClientBuilder(): Builder
+    {
+        return $this->httpClientBuilder;
     }
 }

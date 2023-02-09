@@ -54,13 +54,15 @@ final class Builder
         return $this->uriFactory;
     }
 
-    public function addPlugin(Plugin $plugin): void
+    public function addPlugin(Plugin $plugin): self
     {
         $this->plugins[] = $plugin;
         $this->pluginClient = null;
+
+        return $this;
     }
 
-    public function removePlugin(string $fqcn): void
+    public function removePlugin(string $fqcn): self
     {
         foreach ($this->plugins as $idx => $plugin) {
             if ($plugin instanceof $fqcn) {
@@ -68,5 +70,7 @@ final class Builder
                 $this->pluginClient = null;
             }
         }
+
+        return $this;
     }
 }

@@ -31,6 +31,7 @@ abstract class AbstractApi
     protected function get(string $uri, array $params = [], array $query = [], array $headers = [])
     {
         $response = $this->getAsResponse($uri, $params, $query, $headers);
+
         return ResponseMediator::getContents($response);
     }
 
@@ -38,6 +39,7 @@ abstract class AbstractApi
     {
         $concatUri = sprintf('%s%s', self::URI_PREFIX, $uri) . implode('/', $params);
         $trimmed = rtrim($concatUri, '/');
+
         return $trimmed . HttpQueryBuilder::build($query);
     }
 }

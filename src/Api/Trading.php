@@ -32,4 +32,9 @@ class Trading extends AbstractApi
     {
         return $this->get(self::URI_PREFIX . 'transactions/', [$tradingPair], $query);
     }
+
+    public function feeAndMarketConfiguration(string $tradingPair)
+    {
+        return $this->get(self::URI_PREFIX . 'config/', [$tradingPair]);
+    }
 }
