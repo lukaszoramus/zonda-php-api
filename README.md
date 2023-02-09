@@ -1,6 +1,7 @@
 # Zonda PHP API
 
-<a href="https://github.styleci.io/repos/594166518"><img src="https://github.styleci.io/repos/594166518/shield" alt="StyleCI"></a>
+[![StyleCi](https://github.styleci.io/repos/594166518/shield)](https://github.styleci.io/repos/594166518)
+[![Tests](https://github.com/lukaszoramus/zonda-php-api/actions/workflows/tests.yml/badge.svg)](https://github.com/lukaszoramus/zonda-php-api/actions/workflows/tests.yml)
 
 ## Installation
 
