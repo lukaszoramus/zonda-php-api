@@ -17,7 +17,7 @@ use ZondaPhpApi\HttpClient\Plugin\Authentication;
 class Client
 {
     private const BASE_URL = 'https://api.zonda.exchange';
-    private const USER_AGENT = 'zonda-php-api/0.1';
+    private const USER_AGENT = 'zonda-php-api/0.2';
 
     private Builder $httpClientBuilder;
 

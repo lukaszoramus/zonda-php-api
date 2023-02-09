@@ -8,7 +8,7 @@ This version supports PHP 8.1. To get started require the project using Composer
 You will probably also need install one of packages that provide "psr/http-client-implementation" e.g. `guzzlehttp/guzzle`
 
 ```bash
-$ composer require "lukaszoramus/zonda-php-api:^0.1" "guzzlehttp/guzzle:^7.5"
+$ composer require "lukaszoramus/zonda-php-api:^0.2" "guzzlehttp/guzzle:^7.5"
 ```
 
 ## License
