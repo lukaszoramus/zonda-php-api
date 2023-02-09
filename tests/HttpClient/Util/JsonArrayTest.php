@@ -7,6 +7,9 @@ namespace ZondaPhpApi\Tests\HttpClient\Util;
 use PHPUnit\Framework\TestCase;
 use ZondaPhpApi\HttpClient\Util\JsonArray;
 
+/**
+ * @covers \ZondaPhpApi\HttpClient\Util\JsonArray
+ */
 class JsonArrayTest extends TestCase
 {
     /**
