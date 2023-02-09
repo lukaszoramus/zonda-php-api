@@ -32,5 +32,10 @@
         "phpunit/phpunit": "^9.5",
         "guzzlehttp/guzzle": "^7.5",
         "friendsofphp/php-cs-fixer": "^3.13"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     }
 }
