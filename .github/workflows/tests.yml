@@ -26,8 +26,8 @@ jobs:
           tools: composer:2.5
           coverage: none
 
-      - name: Setup Problem Matchers
-        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+      - name: Configure matchers
+        uses: mheap/phpunit-matcher-action@v1
 
       - name: Cache Composer packages
         id: composer-cache
@@ -42,4 +42,4 @@ jobs:
         run: composer update --no-interaction --no-progress
 
       - name: Run PHPUnit
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit --teamcity
