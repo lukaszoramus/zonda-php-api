@@ -16,17 +16,20 @@ abstract class ApiTestCase extends TestCase
     {
         $httpClient = $this->getMockBuilder(ClientInterface::class)
             ->onlyMethods(['sendRequest'])
-            ->getMock();
+            ->getMock()
+        ;
         $httpClient
             ->expects($this->any())
-            ->method('sendRequest');
+            ->method('sendRequest')
+        ;
 
         $client = Client::createWithHttpClient($httpClient);
 
         return $this->getMockBuilder($this->getApiClass())
             ->onlyMethods(self::METHODS)
             ->setConstructorArgs([$client, null])
-            ->getMock();
+            ->getMock()
+        ;
     }
 
     abstract protected function getApiClass(): string;

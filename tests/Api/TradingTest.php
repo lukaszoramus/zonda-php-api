@@ -23,23 +23,23 @@ class TradingTest extends ApiTestCase
                     'first' => [
                         'currency' => 'BTC',
                         'minOffer' => '0.000045',
-                        'scale' => 8
+                        'scale' => 8,
                     ],
                     'second' => [
                         'currency' => 'PLN',
                         'minOffer' => '5',
-                        'scale' => 2
+                        'scale' => 2,
                     ],
                     'amountPrecision' => 8,
                     'pricePrecision' => 2,
-                    'ratePrecision' => 2
+                    'ratePrecision' => 2,
                 ],
                 'time' => '1674909625135',
                 'highestBid' => '99511.03',
                 'lowestAsk' => '99787.18',
                 'rate' => '99713.03',
-                'previousRate' => '99790.69'
-            ]
+                'previousRate' => '99790.69',
+            ],
         ];
         $trading = $this->getApiMock();
         $trading->expects($this->once())
@@ -62,8 +62,8 @@ class TradingTest extends ApiTestCase
                 'h' => '101439.36',
                 'l' => '99300',
                 'v' => '49.01320123',
-                'r24h' => '99618.7'
-            ]
+                'r24h' => '99618.7',
+            ],
         ];
 
         $trading = $this->getApiMock();
@@ -87,17 +87,17 @@ class TradingTest extends ApiTestCase
                 'ca' => '0.23662314',
                 'sa' => '0.23662314',
                 'pa' => '0.23662314',
-                'co' => 1
+                'co' => 1,
             ]),
             'buy' => array_fill(0, 299, [
                 'ra' => '100057.65',
                 'ca' => '0.23662314',
                 'sa' => '0.23662314',
                 'pa' => '0.23662314',
-                'co' => 1
+                'co' => 1,
             ]),
             'timestamp' => '1674913254548',
-            'seqNo' => '1151810797'
+            'seqNo' => '1151810797',
         ];
 
         $trading = $this->getApiMock();
@@ -122,17 +122,17 @@ class TradingTest extends ApiTestCase
                 'ca' => '0.23662314',
                 'sa' => '0.23662314',
                 'pa' => '0.23662314',
-                'co' => 1
+                'co' => 1,
             ]),
             'buy' => array_fill(0, $limit - 1, [
                 'ra' => '100057.65',
                 'ca' => '0.23662314',
                 'sa' => '0.23662314',
                 'pa' => '0.23662314',
-                'co' => 1
+                'co' => 1,
             ]),
             'timestamp' => '1674913254548',
-            'seqNo' => '1151810797'
+            'seqNo' => '1151810797',
         ];
 
         $trading = $this->getApiMock();
@@ -151,7 +151,7 @@ class TradingTest extends ApiTestCase
     {
         $query = [
             'limit' => 2,
-            'sort' => 'desc'
+            'sort' => 'desc',
         ];
 
         $expected = [
@@ -162,16 +162,16 @@ class TradingTest extends ApiTestCase
                     't' => '1675279655007',
                     'a' => '0.06752256',
                     'r' => '99985.1',
-                    'ty' => 'Buy'
+                    'ty' => 'Buy',
                 ],
                 [
                     'id' => '7addbf71-a266-11ed-9bda-0242ac110005',
                     't' => '1675279655007',
                     'a' => '0.0825',
                     'r' => '99985.09',
-                    'ty' => 'Buy'
-                ]
-            ]
+                    'ty' => 'Buy',
+                ],
+            ],
         ];
 
         $trading = $this->getApiMock();
@@ -219,6 +219,46 @@ class TradingTest extends ApiTestCase
             ->will($this->returnValue($expected));
 
         $this->assertEquals($expected, $trading->candlestickChart(self::TRADING_PAIR, $threeMinutes, $query));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldShowFeeAndMarketConfiguration()
+    {
+        $expected = [
+            'status' => 'Ok',
+            'config' => [
+                'buy' => [
+                    'commissions' => [
+                        'maker' => '0.0028',
+                        'taker' => '0.0041'
+                    ]
+                ],
+                'sell' => [
+                    'commissions' => [
+                        'maker' => '0.0028',
+                        'taker' => '0.0041'
+                    ]
+                ],
+                'first' => [
+                    'balanceId' => 'ad9397c5-3bd9-4372-82ba-22da6a90cb56',
+                    'minValue' => '0.00003'
+                ],
+                'second' => [
+                    'balanceId' => 'f1ed4490-54f6-450b-a87c-16f13d14a949',
+                    'minValue' => '0.1'
+                ]
+            ]
+        ];
+
+        $trading = $this->getApiMock();
+        $trading->expects($this->once())
+            ->method('get')
+            ->with('trading/config/', [self::TRADING_PAIR])
+            ->will($this->returnValue($expected));
+
+        $this->assertEquals($expected, $trading->feeAndMarketConfiguration(self::TRADING_PAIR));
     }
 
     protected function getApiClass(): string
