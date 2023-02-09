@@ -34,12 +34,12 @@ jobs:
         uses: actions/cache@v3
         with:
           path: vendor
-          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.json') }}
           restore-keys: |
             ${{ runner.os }}-php-
 
       - name: Install Dependencies
-        run: composer install --prefer-dist --no-progress
+        run: composer update --no-interaction --no-progress
 
       - name: Run PHPUnit
         run: vendor/bin/phpunit
