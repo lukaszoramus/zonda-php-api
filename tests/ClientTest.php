@@ -8,6 +8,9 @@ use Http\Client\Common\HttpMethodsClient;
 use PHPUnit\Framework\TestCase;
 use ZondaPhpApi\Client;
 
+/**
+ * @covers \ZondaPhpApi\Client
+ */
 class ClientTest extends TestCase
 {
     public function testCreateClient(): void
