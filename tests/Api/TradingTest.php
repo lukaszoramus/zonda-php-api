@@ -47,7 +47,7 @@ class TradingTest extends ApiTestCase
         $trading = $this->getApiMock();
         $trading->expects($this->once())
             ->method('get')
-            ->with('trading/tickers/', [self::TRADING_PAIR])
+            ->with('trading/ticker/', [self::TRADING_PAIR])
             ->will($this->returnValue($expected));
 
         $this->assertEquals($expected, $trading->ticker(self::TRADING_PAIR));
