@@ -10,7 +10,7 @@ use ZondaPhpApi\HttpClient\Enum\Header;
 
 final class ResponseMediator
 {
-    public static function getContents(ResponseInterface $response)
+    public static function getContent(ResponseInterface $response)
     {
         $content = $response->getBody()->getContents();
 

@@ -38,6 +38,21 @@ class Trading extends AbstractApi
         return $this->get(self::URI_PREFIX . 'candle/history/', [$tradingPair, $resolution], $query);
     }
 
+    public function newOrder(string $tradingPair, array $data)
+    {
+        return $this->post(self::URI_PREFIX . 'offer/', [$tradingPair], $data);
+    }
+
+    public function activeOrders(string $tradingPair)
+    {
+        return $this->get(self::URI_PREFIX . 'offer/', [$tradingPair]);
+    }
+
+    public function cancelOrder(string $tradingPair, string $offerId, string $offerType, float $price)
+    {
+        return $this->delete(self::URI_PREFIX . 'offer/', [$tradingPair, $offerId, $offerType, $price]);
+    }
+
     public function feeAndMarketConfiguration(string $tradingPair)
     {
         return $this->get(self::URI_PREFIX . 'config/', [$tradingPair]);
