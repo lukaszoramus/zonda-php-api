@@ -264,6 +264,108 @@ class TradingTest extends ApiTestCase
         $this->assertEquals($expected, $trading->feeAndMarketConfiguration(self::TRADING_PAIR));
     }
 
+    /**
+     * @test
+     */
+    public function shouldCreateNewOrder()
+    {
+        $expected = [
+            'status' => 'Ok',
+            'completed' => true,
+            'offerId' => '6388963b-1d0d-4a70-ab6b-2ada1f9c06ea',
+            'transactions' => [
+                [
+                    'amount' => '0.00005',
+                    'rate' => '21980.02'
+                ]
+            ]
+        ];
+
+        $data = [
+            'offerType' => 'BUY',
+            'amount' => '20',
+            'price' => null,
+            'rate' => null,
+            'postOnly' => false,
+            'mode' => 'market',
+            'fillOrKill' => false
+        ];
+
+        $trading = $this->getApiMock();
+        $trading->expects($this->once())
+            ->method('post')
+            ->with('trading/offer/', [self::TRADING_PAIR], $data)
+            ->will($this->returnValue($expected));
+
+        $this->assertEquals($expected, $trading->newOrder(self::TRADING_PAIR, $data));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldShowActiveOrders()
+    {
+        $expected = [
+            'status' => 'Ok',
+            'items' => [
+                [
+                    'market' => 'BTC-PLN',
+                    'offerType' => 'Sell',
+                    'id' => 'f424817e-9910-4688-8f08-50336d88f4c6',
+                    'currentAmount' => '0.001',
+                    'lockedAmount' => '0.001',
+                    'rate' => '30000',
+                    'startAmount' => '0.001',
+                    'time' => '1508230579837',
+                    'postOnly' => false,
+                    'mode' => 'limit',
+                    'receivedAmount' => '0',
+                    'firstBalanceId' => 'aa1c89b7-103a-4ad2-8002-b4a68002b60c',
+                    'secondBalanceId' => '6c25f724-4b07-4a0f-bad2-843280027b12'
+                ]
+            ]
+        ];
+
+        $trading = $this->getApiMock();
+        $trading->expects($this->once())
+            ->method('get')
+            ->with('trading/offer/', [self::TRADING_PAIR])
+            ->will($this->returnValue($expected));
+
+        $this->assertEquals($expected, $trading->activeOrders(self::TRADING_PAIR));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCancelOrder()
+    {
+        $expected = [
+            'status' => 'Ok',
+            'errors' => [],
+        ];
+
+        $data = [
+            self::TRADING_PAIR,
+            'f424817e-9910-4688-8f08-50336d88f4c6',
+            'SELL',
+            0.001,
+        ];
+
+        $trading = $this->getApiMock();
+        $trading->expects($this->once())
+            ->method('delete')
+            ->with('trading/offer/', $data)
+            ->will($this->returnValue($expected));
+
+        $this->assertEquals($expected, $trading->cancelOrder(
+            $data[0],
+            $data[1],
+            $data[2],
+            $data[3]
+        ));
+    }
+
     protected function getApiClass(): string
     {
         return Trading::class;

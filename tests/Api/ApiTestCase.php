@@ -10,7 +10,7 @@ use ZondaPhpApi\Client;
 
 abstract class ApiTestCase extends TestCase
 {
-    protected const METHODS = ['getAsResponse', 'get'];
+    protected const METHODS = ['get', 'post', 'delete'];
 
     protected function getApiMock(): object
     {

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ZondaPhpApi\Api;
 
-use Psr\Http\Message\ResponseInterface;
 use ZondaPhpApi\Client;
 use ZondaPhpApi\HttpClient\Util\HttpQueryBuilder;
+use ZondaPhpApi\HttpClient\Util\JsonArray;
 use ZondaPhpApi\HttpClient\Util\ResponseMediator;
 
 abstract class AbstractApi
@@ -19,27 +19,49 @@ abstract class AbstractApi
         $this->client = $client;
     }
 
-    protected function getAsResponse(
-        string $uri,
-        array $params = [],
-        array $query = [],
-        array $headers = []
-    ): ResponseInterface {
-        return $this->client->getHttpClient()->get(self::prepareUri($uri, $params, $query), $headers);
-    }
-
     protected function get(string $uri, array $params = [], array $query = [], array $headers = [])
     {
-        $response = $this->getAsResponse($uri, $params, $query, $headers);
+        $response = $this->client->getHttpClient()->get(self::prepareUri($uri, $params, $query), $headers);
 
-        return ResponseMediator::getContents($response);
+        return ResponseMediator::getContent($response);
     }
 
-    protected static function prepareUri(string $uri, array $params = [], array $query = []): string
+    protected function post(string $uri, array $params = [], array $data = [], array $query = [], array $headers = [])
+    {
+        $response = $this->client->getHttpClient()->post(
+            self::prepareUri($uri, $params, $query),
+            $headers,
+            self::prepareJsonBody($data)
+        );
+
+        return ResponseMediator::getContent($response);
+    }
+
+    protected function delete(string $uri, array $params = [], array $data = [], array $query = [], array $headers = [])
+    {
+        $response = $this->client->getHttpClient()->delete(
+            self::prepareUri($uri, $params, $query),
+            $headers,
+            self::prepareJsonBody($data)
+        );
+
+        return ResponseMediator::getContent($response);
+    }
+
+    private static function prepareUri(string $uri, array $params = [], array $query = []): string
     {
         $concatUri = sprintf('%s%s', self::URI_PREFIX, $uri) . implode('/', $params);
         $trimmed = rtrim($concatUri, '/');
 
         return $trimmed . HttpQueryBuilder::build($query);
+    }
+
+    private function prepareJsonBody(array $data): ?string
+    {
+        if (empty($data)) {
+            return null;
+        }
+
+        return JsonArray::encode($data);
     }
 }
