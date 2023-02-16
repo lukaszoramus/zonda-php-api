@@ -6,6 +6,9 @@ namespace ZondaPhpApi\Tests\Api;
 
 use ZondaPhpApi\Api\TradingStop;
 
+/**
+ * @covers \ZondaPhpApi\Api\TradingStop
+ */
 class TradingStopTest extends ApiTestCase
 {
     private const TRADING_PAIR = 'BTC-PLN';
