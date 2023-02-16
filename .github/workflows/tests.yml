@@ -43,3 +43,6 @@ jobs:
 
       - name: Run PHPUnit
         run: vendor/bin/phpunit --teamcity
+
+      - name: Run Psalm
+        run: ./vendor/bin/psalm --output-format=github
