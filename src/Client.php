@@ -35,7 +35,7 @@ class Client
         $this->setUrl(self::BASE_URL);
     }
 
-    public static function create(Builder $httpClientBuilder = null): self
+    public static function create(Builder $httpClientBuilder = new Builder()): self
     {
         return new self($httpClientBuilder);
     }
