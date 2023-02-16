@@ -11,6 +11,7 @@ use Http\Client\Common\Plugin\ContentTypePlugin;
 use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
 use Psr\Http\Client\ClientInterface;
 use ZondaPhpApi\Api\Trading;
+use ZondaPhpApi\Api\TradingStop;
 use ZondaPhpApi\HttpClient\Builder;
 use ZondaPhpApi\HttpClient\Plugin\Authentication;
 
@@ -72,6 +73,11 @@ class Client
     public function trading(): Trading
     {
         return new Trading($this);
+    }
+
+    public function tradingStop(): TradingStop
+    {
+        return new TradingStop($this);
     }
 
     public function getHttpClient(): HttpMethodsClientInterface
