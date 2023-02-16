@@ -227,46 +227,6 @@ class TradingTest extends ApiTestCase
     /**
      * @test
      */
-    public function shouldShowFeeAndMarketConfiguration()
-    {
-        $expected = [
-            'status' => 'Ok',
-            'config' => [
-                'buy' => [
-                    'commissions' => [
-                        'maker' => '0.0028',
-                        'taker' => '0.0041'
-                    ]
-                ],
-                'sell' => [
-                    'commissions' => [
-                        'maker' => '0.0028',
-                        'taker' => '0.0041'
-                    ]
-                ],
-                'first' => [
-                    'balanceId' => 'ad9397c5-3bd9-4372-82ba-22da6a90cb56',
-                    'minValue' => '0.00003'
-                ],
-                'second' => [
-                    'balanceId' => 'f1ed4490-54f6-450b-a87c-16f13d14a949',
-                    'minValue' => '0.1'
-                ]
-            ]
-        ];
-
-        $trading = $this->getApiMock();
-        $trading->expects($this->once())
-            ->method('get')
-            ->with('trading/config/', [self::TRADING_PAIR])
-            ->will($this->returnValue($expected));
-
-        $this->assertEquals($expected, $trading->feeAndMarketConfiguration(self::TRADING_PAIR));
-    }
-
-    /**
-     * @test
-     */
     public function shouldCreateNewOrder()
     {
         $expected = [
@@ -364,6 +324,70 @@ class TradingTest extends ApiTestCase
             $data[2],
             $data[3]
         ));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldShowFeeAndMarketConfiguration()
+    {
+        $expected = [
+            'status' => 'Ok',
+            'config' => [
+                'buy' => [
+                    'commissions' => [
+                        'maker' => '0.0028',
+                        'taker' => '0.0041'
+                    ]
+                ],
+                'sell' => [
+                    'commissions' => [
+                        'maker' => '0.0028',
+                        'taker' => '0.0041'
+                    ]
+                ],
+                'first' => [
+                    'balanceId' => 'ad9397c5-3bd9-4372-82ba-22da6a90cb56',
+                    'minValue' => '0.00003'
+                ],
+                'second' => [
+                    'balanceId' => 'f1ed4490-54f6-450b-a87c-16f13d14a949',
+                    'minValue' => '0.1'
+                ]
+            ]
+        ];
+
+        $trading = $this->getApiMock();
+        $trading->expects($this->once())
+            ->method('get')
+            ->with('trading/config/', [self::TRADING_PAIR])
+            ->will($this->returnValue($expected));
+
+        $this->assertEquals($expected, $trading->feeAndMarketConfiguration(self::TRADING_PAIR));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldChangeMarketConfiguration()
+    {
+        $expected = [
+            'status' => 'Ok',
+            'errors' => [],
+        ];
+
+        $data = [
+            'first' => 'BTC',
+            'second' => 'PLN',
+        ];
+
+        $trading = $this->getApiMock();
+        $trading->expects($this->once())
+            ->method('post')
+            ->with('trading/config/', [self::TRADING_PAIR], $data)
+            ->will($this->returnValue($expected));
+
+        $this->assertEquals($expected, $trading->changeMarketConfiguration(self::TRADING_PAIR, $data));
     }
 
     protected function getApiClass(): string

@@ -22,7 +22,7 @@ final class Builder
     private StreamFactoryInterface $streamFactory;
     private UriFactoryInterface $uriFactory;
     private array $plugins = [];
-    private ?HttpMethodsClient $pluginClient;
+    private ?HttpMethodsClient $pluginClient = null;
 
     public function __construct(
         ClientInterface $httpClient = null,
