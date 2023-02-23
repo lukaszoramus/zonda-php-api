@@ -41,16 +41,6 @@ class Client
         return new self($httpClientBuilder);
     }
 
-    public function setUrl(string $url): void
-    {
-        $uri = $this->getHttpClientBuilder()->getUriFactory()->createUri($url);
-
-        $this->getHttpClientBuilder()
-            ->removePlugin(AddHostPlugin::class)
-            ->addPlugin(new AddHostPlugin($uri))
-        ;
-    }
-
     public static function createWithHttpClient(ClientInterface $httpClient): self
     {
         $builder = new Builder($httpClient);
@@ -83,6 +73,16 @@ class Client
     public function getHttpClient(): HttpMethodsClientInterface
     {
         return $this->getHttpClientBuilder()->getHttpClient();
+    }
+
+    protected function setUrl(string $url): void
+    {
+        $uri = $this->getHttpClientBuilder()->getUriFactory()->createUri($url);
+
+        $this->getHttpClientBuilder()
+            ->removePlugin(AddHostPlugin::class)
+            ->addPlugin(new AddHostPlugin($uri))
+        ;
     }
 
     protected function getHttpClientBuilder(): Builder

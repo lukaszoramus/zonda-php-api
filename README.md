@@ -12,6 +12,18 @@ You will probably also need install one of packages that provide "psr/http-clien
 $ composer require "lukaszoramus/zonda-php-api:^0.2" "guzzlehttp/guzzle:^7.5"
 ```
 
+## How to use
+
+```php
+use ZondaPhpApi\Client;
+
+$client = new Client();
+$client->authenticate('yourPublicApiKey', 'yourPrivateApiKey'); // Not required if you use only public endpoints
+
+// Example call
+$client->trading()->ticker('BTC-PLN');
+```
+
 ## License
 
 Zonda PHP API is licensed under [The MIT License (MIT)](LICENSE).
