@@ -10,8 +10,11 @@ use Http\Client\Common\Plugin\AuthenticationPlugin;
 use Http\Client\Common\Plugin\ContentTypePlugin;
 use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
 use Psr\Http\Client\ClientInterface;
+use ZondaPhpApi\Api\DepositsWithdrawals;
+use ZondaPhpApi\Api\HistoryApi;
 use ZondaPhpApi\Api\Trading;
 use ZondaPhpApi\Api\TradingStop;
+use ZondaPhpApi\Api\WalletApi;
 use ZondaPhpApi\HttpClient\Builder;
 use ZondaPhpApi\HttpClient\Plugin\Authentication;
 
@@ -68,6 +71,21 @@ class Client
     public function tradingStop(): TradingStop
     {
         return new TradingStop($this);
+    }
+
+    public function depositsWithdrawals(): DepositsWithdrawals
+    {
+        return new DepositsWithdrawals($this);
+    }
+
+    public function history(): HistoryApi
+    {
+        return new HistoryApi($this);
+    }
+
+    public function wallet(): WalletApi
+    {
+        return new WalletApi($this);
     }
 
     public function getHttpClient(): HttpMethodsClientInterface
