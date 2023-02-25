@@ -8,11 +8,15 @@ class HistoryApi extends AbstractApi
 {
     public function transactionHistory(array $query = [])
     {
-        return $this->get('trading/history/transactions/', [], $query);
+        $endpointPrefix = 'trading/history/';
+
+        return $this->get($endpointPrefix . 'transactions/', [], $query);
     }
 
     public function operationalHistory(array $query = [])
     {
-        return $this->get('balances/BITBAY/history/', [], $query);
+        $endpointPrefix = 'balances/BITBAY/';
+
+        return $this->get($endpointPrefix . 'history/', [], $query);
     }
 }
