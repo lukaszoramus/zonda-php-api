@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ZondaPhpApi\Tests\Api;
 
 use ZondaPhpApi\Api\HistoryApi;
+use ZondaPhpApi\HttpClient\Util\JsonArray;
 
 class HistoryApiTest extends ApiTestCase
 {
@@ -67,7 +68,7 @@ class HistoryApiTest extends ApiTestCase
         $historyApi
             ->expects($this->once())
             ->method('get')
-            ->with('trading/history/transactions/', [], $query)
+            ->with('trading/history/transactions/', [], ['query' => JsonArray::encode($query)])
             ->will($this->returnValue($expected));
 
         $this->assertEquals($expected, $historyApi->transactionHistory($query));
@@ -151,7 +152,7 @@ class HistoryApiTest extends ApiTestCase
         $historyApi
             ->expects($this->once())
             ->method('get')
-            ->with('balances/BITBAY/history/', [], $query)
+            ->with('balances/BITBAY/history/', [], ['query' => JsonArray::encode($query)])
             ->will($this->returnValue($expected));
 
         $this->assertEquals($expected, $historyApi->operationalHistory($query));
