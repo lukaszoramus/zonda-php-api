@@ -67,9 +67,10 @@ class HistoryApiTest extends ApiTestCase
         $historyApi
             ->expects($this->once())
             ->method('get')
-            ->with('trading/history/transactions/', [], $query);
+            ->with('trading/history/transactions/', [], $query)
+            ->will($this->returnValue($expected));
 
-        $historyApi->transactionHistory($query);
+        $this->assertEquals($expected, $historyApi->transactionHistory($query));
     }
 
     /**
@@ -150,9 +151,10 @@ class HistoryApiTest extends ApiTestCase
         $historyApi
             ->expects($this->once())
             ->method('get')
-            ->with('balances/BITBAY/history/', [], $query);
+            ->with('balances/BITBAY/history/', [], $query)
+            ->will($this->returnValue($expected));
 
-        $historyApi->operationalHistory($query);
+        $this->assertEquals($expected, $historyApi->operationalHistory($query));
     }
 
     protected function getApiClass(): string
