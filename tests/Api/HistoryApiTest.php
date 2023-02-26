@@ -7,6 +7,9 @@ namespace ZondaPhpApi\Tests\Api;
 use ZondaPhpApi\Api\HistoryApi;
 use ZondaPhpApi\HttpClient\Util\JsonArray;
 
+/**
+ * @covers \ZondaPhpApi\Api\HistoryApi
+ */
 class HistoryApiTest extends ApiTestCase
 {
     /**

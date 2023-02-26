@@ -6,6 +6,9 @@ namespace ZondaPhpApi\Tests\Api;
 
 use ZondaPhpApi\Api\WalletApi;
 
+/**
+ * @covers \ZondaPhpApi\Api\WalletApi
+ */
 class WalletApiTest extends ApiTestCase
 {
     /**
