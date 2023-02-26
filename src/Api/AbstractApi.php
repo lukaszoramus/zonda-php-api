@@ -37,6 +37,17 @@ abstract class AbstractApi
         return ResponseMediator::getContent($response);
     }
 
+    protected function put(string $uri, array $params = [], array $data = [], array $query = [], array $headers = [])
+    {
+        $response = $this->client->getHttpClient()->put(
+            self::prepareUri($uri, $params, $query),
+            $headers,
+            self::prepareJsonBody($data)
+        );
+
+        return ResponseMediator::getContent($response);
+    }
+
     protected function delete(string $uri, array $params = [], array $data = [], array $query = [], array $headers = [])
     {
         $response = $this->client->getHttpClient()->delete(
